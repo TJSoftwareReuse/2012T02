@@ -10,6 +10,7 @@ import com.license.resource.LicenseResource;
 public class LicenseManager {
 
 	private static LicenseManager licenseManager;
+	
 	private LicenseManager(){};
 	
 	public static LicenseManager getInstance(){
@@ -19,7 +20,6 @@ public class LicenseManager {
 					licenseManager = new LicenseManager();
 				}
 			}
-			 licenseManager = new LicenseManager();
 		 }
 		 return licenseManager;
 	}
@@ -28,12 +28,12 @@ public class LicenseManager {
 	public RequestResultMessage requestLicense(CallerMessage callerMessage){
 		RequestResultMessage rrm = new RequestResultMessage();
 		try{
-			int restRequestNum = LicenseResource.getRestRequestNum();
+			int restRequestNum = LicenseResource.getRestLicenseNum();
 			if(restRequestNum <= 0){
 				rrm.setSuccess(false);
 				rrm.setInfo("系统License资源不足");
 			}else{
-				LicenseResource.setRestRequestNum(--restRequestNum);
+				LicenseResource.setRestLicenseNum(--restRequestNum);
 				rrm.setSuccess(true);
 				rrm.setInfo("申请License成功");
 			}

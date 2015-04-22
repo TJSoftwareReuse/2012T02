@@ -21,7 +21,7 @@ public class RequestResultMessage {
 		this.info = info;
 	}
 	public Date getResponseTime() {
-		return responseTime;
+		return this.responseTime;
 	}
 	public void setResponseTime(Date responseTime) {
 		this.responseTime = responseTime;

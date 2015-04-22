@@ -3,7 +3,11 @@ package com.license.caller;
 
 public class CallerMessage {
 	private String callerID;//调用者的ID信息，随便写的。
-
+	
+	public CallerMessage(){
+		this.callerID = null;
+	}
+	
 	public CallerMessage(String callerID){
 		this.callerID = callerID;
 	}
