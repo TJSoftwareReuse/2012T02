@@ -4,7 +4,6 @@
 1. 构件名： FailureManager
 2. 功能：该构件可接收应用程序的告警信息并输出告警信息到一个单独的告警文件
 3. 其他
-	* 构件中所有函数均为static类型，可直接调用
 	* 构件支持5种警告类型，分别为
 		1. INFO （information）
 		2. DEBUG （debug）
