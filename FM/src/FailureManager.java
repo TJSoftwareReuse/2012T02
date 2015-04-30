@@ -13,28 +13,28 @@ import java.util.Properties;
 
 public class FailureManager {
 
-    public static void logInfo(String log){
+    public synchronized static void logInfo(String log){
         logger.info(log);
     }
 
-    public static void logDebug(String log){
+    public synchronized static void logDebug(String log){
         logger.debug(log);
     }
 
-    public static void logWarn(String log){
+    public synchronized static void logWarn(String log){
         logger.warn(log);
     }
 
-    public static void logError(String log){
+    public synchronized static void logError(String log){
         logger.error(log);
     }
 
-    public static void logFatal(String log){
+    public synchronized static void logFatal(String log){
         logger.fatal(log);
     }
 
-    public static boolean resetOutputFile(String file){
-        Properties props = new Properties();;
+    public synchronized static boolean resetOutputFile(String file){
+        Properties props = new Properties();
         InputStream in = FailureManager.class.getResourceAsStream("log4j.properties");
 
         try{
