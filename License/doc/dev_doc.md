@@ -30,7 +30,6 @@
 		4. ```public static void setRestRequestNum(int rEST_REQUEST_NUM);```设置当前系统剩余的证书数量。传入参数：```rEST_REQUEST_NUM```，系统剩余证书的数量。
 
 
-
 	* 在```com.license.manager.message```包下，有RequestResultMessage类，该类是请求证书资源的客户端在向系统发送证书请求后，得到的来自于系统的回馈信息。该类中主要包含如下字段：
 		1. ```private boolean isSuccess;``` 标记此次证书的申请是否成功，True表明证书申请成功，False表明证书申请失败。
 		2. ```private String info;``` 记录证书申请的相关信息。若此次证书申请成功，则该字段为“Request License Successful”；若失败，那么该字段为具体的出错信息，“Request License Failed”代表当前系统证书资源已不足，若证书申请过程中出现异常，那么该字段为 “License Request Exception，Error Message： error detail”。
@@ -44,6 +43,8 @@
 		4. ```public void setInfo(String info);```设置此次证书申请的附加信息。传入参数：info， 证书申请过程的相关信息。
 		5. ```public Date getResponseTime();```获得系统对证书申请作出响应的时间。
 		6. ```public void setResponseTime(Date responseTime);``` 设置系统对证书申请作出响应的时间。
+
+
 	* ```Com.license.manager```包下的LicenseManager类是该组件最核心的类，它负责合理分配系统的证书资源，并且处理来自客户端的证书申请请求。该类中主要包含以下字段：
 		1. ```private static LicenseManager licenseManager;```一个私有静态的LicenseManager实例，不同的客户端都将通过该实例获取系统的证书资源（单例模式实现，保证线程安全）。
 		
