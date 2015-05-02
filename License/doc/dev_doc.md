@@ -45,8 +45,7 @@
 		6. ```public void setResponseTime(Date responseTime);``` 设置系统对证书申请作出响应的时间。
 
 
-	* ```Com.license.manager```包下的LicenseManager类是该组件最核心的类，它负责合理分配系统的证书资源，并且处理来自客户端的证书申请请求。该类中主要包含以下字段：
-	
+	* 在```Com.license.manager```包下的LicenseManager类是该组件最核心的类，它负责合理分配系统的证书资源，并且处理来自客户端的证书申请请求。该类中主要包含以下字段：
 		1. ```private static LicenseManager licenseManager;```一个私有静态的LicenseManager实例，不同的客户端都将通过该实例获取系统的证书资源（单例模式实现，保证线程安全）。
 		
 		该类中的方法如下：
