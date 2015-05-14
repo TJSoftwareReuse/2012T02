@@ -42,4 +42,16 @@ public class LicenseManager {
 		rrm.setResponseTime(new Date());
 		return rrm;
 	}
+	
+	public boolean setLicenseCapacity(int capacity){
+		return LicenseResource.setMaxLicenseNum(capacity);
+	}
+	
+	public int getLicenseCapacity(){
+		return LicenseResource.getMaxLicenseNum();
+	}
+	
+	public int getRestLicenseCapacity(){
+		return LicenseResource.getRestLicenseNum();
+	}
 }

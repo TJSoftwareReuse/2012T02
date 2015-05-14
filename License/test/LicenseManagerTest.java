@@ -43,5 +43,20 @@ public class LicenseManagerTest {
 		rrm = LicenseManager.getInstance().requestLicense(null);
 		assertFalse("LicenseManager Error", rrm.isSuccess());
 	}
+	
+	@Test
+	public void testSetLicenseCapacity1(){
+		LicenseManager licenseManager = LicenseManager.getInstance();
+		licenseManager.setLicenseCapacity(100);
+		assertEquals("Cann't set the license capacity", 100, licenseManager.getLicenseCapacity());
+	}
+	
+	@Test
+	public void testSetLicenseCapacity2(){
+		LicenseManager licenseManager = LicenseManager.getInstance();
+		licenseManager.setLicenseCapacity(100);
+		assertEquals("There are problems in restLicenseNum after reset the MAX_LICENSE_NUM",
+				100, licenseManager.getRestLicenseCapacity());
+	}
 
 }
