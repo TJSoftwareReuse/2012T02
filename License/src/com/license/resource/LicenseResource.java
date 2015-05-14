@@ -8,8 +8,14 @@ public class LicenseResource {
 		return MAX_LICENSE_NUM;
 	}
 	
-	public static synchronized void setMaxLicenseNum(int mAX_REQUEST_NUM) {
+	public static synchronized boolean setMaxLicenseNum(int mAX_REQUEST_NUM) {
+		if(mAX_REQUEST_NUM <= 0)
+			return false;
+		if(MAX_LICENSE_NUM != mAX_REQUEST_NUM){
+			REST_LICENSE_NUM = mAX_REQUEST_NUM;
+		}
 		LicenseResource.MAX_LICENSE_NUM = mAX_REQUEST_NUM;
+		return true;
 	}
 	
 	public static synchronized int getRestLicenseNum() {
