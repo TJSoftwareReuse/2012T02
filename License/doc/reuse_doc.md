@@ -20,6 +20,24 @@
 	
 			import com.license.manager.message.RequestResultMessage;
 			RequestResultMessage rrm = licenseManager.requestLicense(callerMessage);
+
+	* 另外我们还可以对系统证书资源的上限值做一些改变，调用方法如下：
+	
+			import com.license.manager.LicenseManager;
+			LicenseManager licenseManager = LicenseManager.getInstance(); 
+			//设置系统证书资源的上限值为100（默认为10）
+			boolean bResult1 = licenseManager.setLicenseCapacity(100);
+			if(bResult1 == true){
+				System.out.println("证书资源上限设置成功");
+			}else{
+				System.out.println("证书资源上限设置失败");
+			}
+			//获取当前证书资源的上限值
+			int licenseCount = licenseManager.getLicenseCapacity();
+			System.out.println("当前系统证书资源的上限值为：" + liecnseCount);
+			//获取当前剩余的系统资源数量
+			int restLicenseNum = licenseManager.getRestLicenseCapacity();
+			System.out.println("当前系统剩余的证书资源为：" + restLicenseNum);
 	
 4. 说明：
 	* ```LicenseManager```的```requestLicense```方法要求客户端传入一个```CallerMessage```类的实例，该实例中包含了发出证书申请客户端的一些信息。随后向系统发出证书申请，该方法将会返回一个```RequestResultMessage```对象，该对象中包含了证书申请成功与否的信息。如上，可调用```RequestResultMessage```的```isSuccess()```方法来判断此次证书申请过程是否成功。若```isSuccess()```返回```True```，那么表示此次证书申请成功；否则，证书申请失败。
@@ -34,6 +52,19 @@
 			public static void main(String[] args){
 				//1. 获得LicenseManager实例，用于接下来的证书申请操作。
 				LicenseManager licenseManager = LicenseManager.getInstance();
+
+				//默认系统证书资源上限为10.
+				System.out.println("默认系统证书资源上限为:" + licenseManager.getLicenseCapacity());
+				//设置系统证书资源的上限值为100（默认为10）
+				boolean bResult1 = licenseManager.setLicenseCapacity(100);
+				if(bResult1 == true){
+					System.out.println("证书资源上限设置成功, 当前系统证书上限为：" + licenseManager.getLicenseCapacity());
+				}else{
+					System.out.println("证书资源上限设置失败");
+				}
+				System.out.println("当前系统剩余的证书资源为(请求操作前)：" + licenseManager.getRestLicenseCapacity());
+				
+				
 				//2. 生成CallerMessage实例，填充做出证书申请客户端的一些基本信息。
 				CallerMessage callerMessage = new CallerMessage("THFERDXEWWS-98754456");
 				//3. 向系统发起证书申请操作。
@@ -44,8 +75,18 @@
 				}else{//证书申请失败
 					System.out.println("证书申请失败，出错信息："+rrm.getInfo()+", 申请时间："+rrm.getResponseTime());
 				}
+
+				System.out.println("当前系统剩余的证书资源为(请求操作后)：" + licenseManager.getRestLicenseCapacity());
 			}
 		}
 
+
+    上诉代码的输出如下：
+
+		默认系统证书资源上限为:10
+	    证书资源上限设置成功, 当前系统证书上限为：100
+		当前系统剩余的证书资源为(请求操作前)：100
+		证书申请成功，申请时间：Thu May 14 21:27:41 CST 2015
+		当前系统剩余的证书资源为(请求操作后)：99
 
 

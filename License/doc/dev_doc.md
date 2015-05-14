@@ -25,7 +25,7 @@
 		LicenseResource类中还包含以下方法：
 
 		1. ```public static int getMaxRequestNum();``` 获取系统证书资源的最大数量，无传入参数。
-		2. ```public static void setMaxRequestNum(int mAX_REQUEST_NUM);``` 设置系统证书资源的上限。传入参数： ```mAX_REQUEST_NUM```，系统证书的最大数量。
+		2. ```public static bool setMaxRequestNum(int mAX_REQUEST_NUM);``` 设置系统证书资源的上限。传入参数： ```mAX_REQUEST_NUM```，系统证书的最大数量，若该参数小于0，那么该函数返回false。返回参数：boolean，true代表新的证书容量值设置成功，此时证书的剩余容量被设置成与新的证书容量相同。若返回false，那么系统的证书容量与剩余证书数量都不会改变。
 		3. ```public static int getRestRequestNum();``` 获得当前剩余系统证书的数量。
 		4. ```public static void setRestRequestNum(int rEST_REQUEST_NUM);```设置当前系统剩余的证书数量。传入参数：```rEST_REQUEST_NUM```，系统剩余证书的数量。
 
@@ -54,3 +54,6 @@
 		2. ```public static LicenseManager getInstance();```获得LicenseManager的单例对象，该方法保证线程安全。
 		3. ```public RequestResultMessage requestLicense(CallerMessage callerMessage);```
 客户端将通过调用该方法申请系统的证书资源。传入参数：CallerMessage，调用者的基本信息；返回值：RequestResultMessage 系统返回给证书申请者的回馈信息。
+		4. ``` public boolean setLicenseCapacity(int capacity); ``` 该方法将设置系统证书容量的上限，传入参数：证书容量；返回值：boolean，若为true，那么证书上限设置成功。若为false，那么说明证书上限值设置失败。
+		5. ```public int getLicenseCapacity(); ``` 该方法获得当前系统证书资源的上限值。传入参数：无；返回值：int，返回当前系统证书资源的上限值。
+		6. ```public int getRestLicenseCapacity(); ``` 该方法获得系统当前剩余的证书资源的数量。传入参数：无。返回值：int，返回当前剩余系统证书资源的上限值。
