@@ -45,7 +45,7 @@ public class DBConnection {
 		try {
 			this.conn.close();
 		} catch (SQLException e) {
-			FailureManager.logError("DBConnection finalize: error");
+			System.out.println("DBConnection finalize: error");
 			e.printStackTrace();
 		}
 	}

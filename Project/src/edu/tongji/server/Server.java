@@ -35,7 +35,6 @@ public class Server {
 		FailureManager.resetOutputFile(config.getProperty("FM_PATH"));
 		PM.setPathName(config.getProperty("PM_PATH"));
 		System.out.println(PM.getPathName());
-		PM.sendPMMessage("message", 1);
 		licenseManager = LicenseManager.getInstance();
 		licenseManager.setLicenseCapacity(Integer.parseInt(config.getProperty("LICENSE_NUM")));
 		
