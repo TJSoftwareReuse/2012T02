@@ -9,35 +9,41 @@
 	* 返回消息次数
 3. 输出系统运行日志
 
-### 环境说明
+### 开发环境
 
-1. 运行环境： java运行环境
-2. 开发环境： 
-	* jdk 1.8
-	* FM - Team2
-	* License - Team2
-	* PM - Team8
-	* CM - Team1
-3. 测试环境：JUNIT测试工具
+* jdk 1.8
+* FM - Team2
+* License - Team2
+* PM - Team8
+* CM - Team1
+* Mysql + JDBC
+* JUNIT测试工具
    
 ### 数据导入与配置
-1. 数据导入
-	* 请在mysql中新建数据库
-	* 请在目标数据库中执行 ```source PROJECT_PATH/data/student.sql```命令，将数据导入数据库中
-	* 需注意更改配置数据库的配置选项
+
+##### 数据导入
+
+* 请在新建数据库（样例名称为student）
+* 请在目标数据库中执行 ```source /data/student.sql```命令，将数据导入数据库中
+* 需注意更改配置数据库的配置选项
 	
-2. 配置文件
-	* 配置文件名为config.properties，位于项目的根目录下。
-	* 文件示例
+##### 配置文件
+
+* 配置文件名为config.properties，位于项目的根目录下。
+* 文件示例（示例在```/data```目录下）
+
+###### server端配置（server-config.properties）
 
 ```
+# server 端口号
+SERVER_PORT = 8899
 # FM构件输出文件的路径+文件名
 FM_PATH=/Users/momo/program/eclipse-workspace/server/fm.log
 # PM构件输出文件的路径
 PM_PATH=/Users/momo/program/eclipse-workspace/server/pm
 # LICENSE构件的容量
 LICENSE_NUM=5
-# 数据库相关配置，给出的为本地mysql数据库的配置，数据库名为student，端口号为3306，用户名和密码均为momo
+# 数据库相关配置，给出的为本地mysql数据库的配置，数据库名为student，端口号为3306，用户名和密码均为momo（当然也可以采用远程访问数据库的形式）
 DB_NAME=mysql
 DB_DRIVER_CLASS=com.mysql.jdbc.Driver
 DB_URL=jdbc:mysql://localhost:3306/student
@@ -45,66 +51,65 @@ DB_USER=momo
 DB_PASSWORD=momo
 ```
 
+###### client端配置(client-config.properties)
+
+```
+# server主机名称，此例中server与client运行在同一台机器上，因此为localhost
+SERVER_HOSTNAME = localhost
+# server 端口号，此端口号需与server端保持一致
+SERVER_PORT = 8899
+```
+
+
 ### 系统说明
 
-1. 启动步骤
-	* 导入数据
-	* 修改配置文件
-	* 启动数据库
-	* 运行项目
+##### 准备步骤
+* 导入数据
+* 新建项目Server和Client，将相应代码导入
+* 将```/jar/server.jar```包和CM组件导入Client项目中
+* 将```/jar/mysql-connector-java-5.1.35-bin.jar```和四个组件导入Server项目中
+* 在Server项目中如之前所说完成配置文件
+* 在Client项目中如之前所说完成配置文件
 
-2. 查询说明
-	* 用户输入：
-		* 查询： 学生姓名（String）
-		* 退出： “quit”（大小写不限）
-	* server输出：
-		* License分配失败，拒接提供查询： Reject: License out of limit!
-		* 学生存在： Student __NAME__ is in Team __X__
-		* 学生不存在： Student haha dosen't exist
+##### Client端查询说明
+* 用户输入：
+	* 查询： 学生姓名（String）
+	* 退出： “quit”（大小写不限）
+* server输出：
+	* License分配失败，拒接提供查询： Reject: License out of limit!
+	* 学生存在： Student __NAME__ is in Team __X__
+	* 学生不存在： Student haha dosen't exist
 
 	
-3. 日志输出
-	* PM构件日志输出: __PM_PATH/YYYY-MM-DD HH-mm-ss.log__
-		* NEW_REQUEST: xxx
-		* PROVIED_REQUEST : xxx
-		* REJECT_REQUEST: xxx
-		* END_REQUEST: xxx
-	
-	* FM构件日志输出： __FM_PATH__
+##### Server端日志输出说明
+* PM构件日志输出: __PM_PATH/YYYY-MM-DD HH-mm-ss.log__
+	* NEW_REQUEST: xxx
+	* PROVIED_REQUEST : xxx
+	* REJECT_REQUEST: xxx
+	* END_REQUEST: xxx
+
+* FM构件日志输出： __FM_PATH__
 
 事件 | 输出日志
 ------ | ------
-数据库驱动加载成功 | _YYYY-MM-DD HH:mm:ss_ INFO DBConnection getConnection: success load driver
-数据库驱动加载失败 | _YYYY-MM-DD HH:mm:ss_ ERROR DBConnection getConnection: load driver error
-数据库连接成功 | _YYYY-MM-DD HH:mm:ss_ INFO DBConnection getConnection: success connect server
-数据库连接失败 | _YYYY-MM-DD HH:mm:ss_ ERROR DBConnection getConnection: connect server error
-系统运行 | _YYYY-MM-DD HH:mm:ss_ INFO System start run
-系统关闭 | _YYYY-MM-DD HH:mm:ss_ INFO System shut down
 系统接收查询请求 | _YYYY-MM-DD HH:mm:ss_ INFO Provide service, query: __name__
 系统拒接查询请求 | _YYYY-MM-DD HH:mm:ss_ ERROR Reject service, query: __name__
-查询失败 | _YYYY-MM-DD HH:mm:ss_ FATAL Server run: sql execute error
-	
-   
-### 系统设计
+
 
 ##### 系统运行流程
 
-1. 启动
-2. 读入配置文件
-3. 初始化配置，连接数据库
-4. 运行，开始查询
+1. 启动数据库
+2. 启动Server
+3. 启动Client
+4. 开始查询
 
-##### 函数说明
 
-函数名称  | 函数功能
+### Server端结构设计
+
+文件名称  | 执行功能
 ------------- | -------------
-Server.java |
-readConfig() | 读入配置文件
-init() | 根据配置文件进行数据库连接以及参数初始化
-run() | 初始化成功，运行系统
-DBConnection.java |
-DBConnection(ConfigUtil config) | 构造函数
-getConnection() | 数据库连接
-finalize() | 程序中断前断开数据库连接
-
+UserQueryInterface.java | 服务接口
+UserQueryImpl.java | 服务接口实现
+DBConnection.java | 数据库连接类
+Main.java | 注册RMI接口，指定服务端口
 
