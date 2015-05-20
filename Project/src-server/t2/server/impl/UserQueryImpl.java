@@ -4,7 +4,9 @@ import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.SQLException;
+
+import t2.server.db.DBConnection;
+import t2.server.stub.UserQueryInterface;
 
 import com.eva.me.cm.ConfigUtil;
 import com.license.caller.CallerMessage;
@@ -13,23 +15,15 @@ import com.license.manager.message.RequestResultMessage;
 import com.manager.failure.FailureManager;
 import com.team8.PerformanceManagement.PM;
 
-import t2.server.db.DBConnection;
-import t2.server.stub.UserQueryInterface;
-
 public class UserQueryImpl implements UserQueryInterface {
 
 	private String getUserTeamSQL = "SELECT * FROM student_info WHERE name = ?";
-	private LicenseManager licenseManager;
-	private ConfigUtil config;
 
-	public UserQueryImpl(ConfigUtil config) throws RemoteException{
-
+	public UserQueryImpl() throws RemoteException{
+		ConfigUtil config = ConfigUtil.getInstance();
 		FailureManager.resetOutputFile(config.getProperty("FM_PATH"));
 		PM.setPathName(config.getProperty("PM_PATH"));
-		licenseManager = LicenseManager.getInstance();
-		licenseManager.setLicenseCapacity(Integer.parseInt(config.getProperty("LICENSE_NUM")));
-		
-		this.config = config;
+		LicenseManager.getInstance().setLicenseCapacity(Integer.parseInt(config.getProperty("LICENSE_NUM")));
 	}
 
 	@Override
@@ -39,13 +33,13 @@ public class UserQueryImpl implements UserQueryInterface {
 			PM.sendPMMessage("NEW_REQUEST", 1);
 
 			CallerMessage callerMessage = new CallerMessage("SOFTWARE-REUSE-TEAM2");
-			RequestResultMessage rrm = licenseManager.requestLicense(callerMessage);
+			RequestResultMessage rrm = LicenseManager.getInstance().requestLicense(callerMessage);
 			
 			if(rrm.isSuccess()){
 				FailureManager.logInfo("Provide service, query: "+name);
 				PM.sendPMMessage("PROVIED_REQUEST", 1);
 				
-				DBConnection db = new DBConnection(config);
+				DBConnection db = new DBConnection();
 				Connection connect = db.getConnection();
 				
 				PreparedStatement getUserTeamStat = connect.prepareStatement(getUserTeamSQL);

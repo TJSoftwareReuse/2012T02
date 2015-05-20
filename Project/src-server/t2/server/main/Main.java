@@ -14,9 +14,9 @@ import com.eva.me.cm.ConfigUtil;
 public class Main {
 
 	public static void main(String[] args) throws AlreadyBoundException, RemoteException{
-		UserQueryImpl userQuery = new UserQueryImpl(ConfigUtil.getInstance());
+		UserQueryImpl userQuery = new UserQueryImpl();
 		UserQueryInterface userQueryInterface = (UserQueryInterface) UnicastRemoteObject.exportObject(userQuery, 0);
-		Registry registry = LocateRegistry.createRegistry(8899);
+		Registry registry = LocateRegistry.createRegistry(Integer.valueOf(ConfigUtil.getInstance().getProperty("SERVER_PORT")));
 		registry.rebind("userQuery", userQueryInterface);
 		
 		System.out.println("in service...");

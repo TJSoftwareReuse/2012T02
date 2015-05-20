@@ -6,13 +6,17 @@ import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.Scanner;
 
+import com.eva.me.cm.ConfigUtil;
+
 import t2.server.stub.UserQueryInterface;
 
 public class Main {
 
 	public static void main(String[] args) {
+		String hostname = ConfigUtil.getInstance().getProperty("SERVER_HOSTNAME");
+		int port = Integer.valueOf(ConfigUtil.getInstance().getProperty("SERVER_PORT"));
 		try {
-			Registry registry = LocateRegistry.getRegistry("localhost", 8899);
+			Registry registry = LocateRegistry.getRegistry(hostname, port);
 			UserQueryInterface userQueryInterface = (UserQueryInterface) registry.lookup("userQuery");
 			
 			while(true){
