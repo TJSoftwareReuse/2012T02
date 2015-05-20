@@ -1,4 +1,4 @@
-package edu.tongji.database;
+package t2.server.db;
 
 import java.sql.*;
 
