@@ -2,8 +2,8 @@
 
 ### 功能说明
 1. 项目采用RMI的Server-Client方式
-2. Client端与用户交互，用户输入学生姓名（字符串），Client通过访问Server端将返回结果展现给用户
-1. Server端从Client接收一个学生姓名（字符串），通过查询数据库，将学生所在组别返回给Client端
+2. Client端与用户交互，用户输入组号，Client通过访问Server端将返回结果展现给用户
+1. Server端从Client接收一个组号，通过查询数据库，将该组全部成员姓名返回给Client端
 2. Server端记录以下数据：
 	* 收到请求次数
 	* 提供服务次数
@@ -70,19 +70,19 @@ SERVER_PORT = 8899
 ##### 准备步骤
 * 导入数据
 * 新建项目Server和Client，将相应代码导入
-* 将```/jar/server.jar```包和CM组件导入Client项目中
+* 将```/jar/server2.jar```包和CM组件导入Client项目中
 * 将```/jar/mysql-connector-java-5.1.35-bin.jar```和四个组件导入Server项目中
 * 在Server项目中如之前所说完成配置文件
 * 在Client项目中如之前所说完成配置文件
 
 ##### Client端查询说明
 * 用户输入：
-	* 查询： 学生姓名（String）
-	* 退出： “quit”（大小写不限）
+	* 查询： 组号（Integer）
+	* 退出： “quit”（String， 大小写不限）
 * server输出：
 	* License分配失败，拒接提供查询： Reject: License out of limit!
-	* 学生存在： Student __NAME__ is in Team __X__
-	* 学生不存在： Student haha dosen't exist
+	* 学生存在： Team __NUMBER__ has __MEMBER_COUNT__ members:\n __XXX__ \n __XXX__...
+	* 学生不存在： Team __NUMBER__ does not has any members
 
 	
 ##### Server端日志输出说明
@@ -96,8 +96,8 @@ SERVER_PORT = 8899
 
 事件 | 输出日志
 ------ | ------
-系统接收查询请求 | _YYYY-MM-DD HH:mm:ss_ INFO Provide service, query: __name__
-系统拒接查询请求 | _YYYY-MM-DD HH:mm:ss_ ERROR Reject service, query: __name__
+系统接收查询请求 | _YYYY-MM-DD HH:mm:ss_ INFO Provide service, query: __team__
+系统拒接查询请求 | _YYYY-MM-DD HH:mm:ss_ ERROR Reject service, query: __team__
 
 
 ##### 系统运行流程
@@ -112,8 +112,8 @@ SERVER_PORT = 8899
 
 文件名称  | 执行功能
 ------------- | -------------
-UserQueryInterface.java | 服务接口
-UserQueryImpl.java | 服务接口实现
+TeamQueryInterface.java | 服务接口
+TeamQueryImpl.java | 服务接口实现
 DBConnection.java | 数据库连接类
 Main.java | 注册RMI接口，指定服务端口
 
