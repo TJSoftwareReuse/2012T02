@@ -109,8 +109,6 @@ public class FailureManagerTest {
         String result = (String) list.get(list.size()-1);
         assertEquals(expResult==result,1);
         }
-	
-
 	@Test
 	public void testLogWarn() {
 		System.out.println("test LogWarn()\n");
@@ -123,7 +121,6 @@ public class FailureManagerTest {
         String result = (String) list.get(list.size()-1);
         assertEquals(expResult==result,1);
 	}
-
 	@Test
 	public void testLogError() {
 		System.out.println("test LogError()\n");
@@ -136,7 +133,6 @@ public class FailureManagerTest {
         String result = (String) list.get(list.size()-1);
         assertEquals(expResult==result,1);
 	}
-
 	@Test
 	public void testLogFatal() {
 		System.out.println("test LogFatal()\n");
@@ -149,10 +145,8 @@ public class FailureManagerTest {
         String result = (String) list.get(list.size()-1);
         assertEquals(expResult==result,1);	
         }
-
 	@Test
 	public void testResetOutputFile() {
 		fail("Not yet implemented");
 	}
-
 }
