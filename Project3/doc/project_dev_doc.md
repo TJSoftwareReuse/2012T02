@@ -161,7 +161,7 @@ StudentService.java | 提供查询学生信息的各种方式
 	* public DBConnection(); 构造函数，负责读入配置文件中的配置属性（数据库连接属性，四个构件的连接属性等）
 	* public Connection getConnection(); 负责从数据库中获得一个数据库连接。
 
-### server端代码实现
+### client端代码实现
 1. ```StudentService```类，该类主要负责将从服务器接受来的回应数据显示给用户， 其包含的方法如下：
 	* public StudentService();  构造函数，负责与远端的服务器连接。
 	* public void getTeamMemberService() throws NumberFormatException, RemoteException; 负责将某一组的组员信息显示给用户。
