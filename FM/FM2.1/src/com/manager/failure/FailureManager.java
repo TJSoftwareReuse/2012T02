@@ -33,7 +33,7 @@ public class FailureManager {
         logger.fatal(log);
     }
 
-    public static boolean resetOutputFile(String file){
+    public static boolean resetOutputFile(String file)throws Exception{
         Properties props = new Properties();;
         InputStream in = FailureManager.class.getResourceAsStream("log4j.properties");
 
