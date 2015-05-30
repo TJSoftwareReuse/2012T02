@@ -136,7 +136,7 @@ End Service
 UserQueryInterface.java | 服务接口
 UserQueryImpl.java | 服务接口实现
 DBConnection.java | 数据库连接类
-RequestMessage.java | 请求服务的返回消息
+QueryResultMessage.java | 请求服务的返回消息
 Main.java | 注册RMI接口，指定服务端口
 
 ### Client端结构设计
