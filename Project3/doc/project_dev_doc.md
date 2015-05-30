@@ -153,6 +153,8 @@ StudentService.java | 提供查询学生信息的各种方式
 	* ```public QueryResultMessage getUserTeam(String name) throws RemoteException;``` 提供查询学生所在组号信息的接口方法。传入参数：学生姓名；返回值：```QueryResultMessage``` 包含查询结果信息的类实例。 
 
 2. ```UserQueryImpl``` 主要是对```UserQueryInterface```两个方法的实现。
+	* 另外其包含一个私有方法：public boolean isTeamNumExist(int team) throws SQLException; 该方法辅助检测所查询的组号是否存在。输入参数：team，组号；返回值：boolean，若组号存在，那么返回true；否则返回false。
+
 3. ```QueryResultMessage```类， 其包含查询结果的相关信息， 客户端通过接收到的该实例获得查询结果。该类包含的字段如下：
 	* isSuccess： 此次查询是否成功
 	* message： 查询成功或者失败的提示信息

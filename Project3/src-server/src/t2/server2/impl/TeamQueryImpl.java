@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 
@@ -27,6 +28,26 @@ public class TeamQueryImpl implements TeamQueryInterface{
 		LicenseManager.getInstance().setLicenseCapacity(Integer.parseInt(config.getProperty("LICENSE_NUM")));
 	}
 
+	public boolean isTeamNumExist(int team) throws SQLException{
+		DBConnection db = new DBConnection();
+		Connection conn = db.getConnection();
+		
+		String getTeamCountSQL = "SELECT team_num FROM student_info";
+		Statement stmt = conn.createStatement();
+		ResultSet rsCount = stmt.executeQuery(getTeamCountSQL);
+
+		boolean bExist = false;
+		while(rsCount.next()){
+			if(team == rsCount.getInt(1)){
+				bExist =  true;
+			}
+		}
+		rsCount.close();
+		stmt.close();
+		conn.close();
+		return bExist;
+	}
+	
 	@Override
 	public QueryResultMessage getTeamMember(int team) throws RemoteException {
 		QueryResultMessage qrm = new QueryResultMessage();
@@ -41,23 +62,15 @@ public class TeamQueryImpl implements TeamQueryInterface{
 				FailureManager.logInfo("Provide service (Get_Team_Member), query: "+team);
 				PM.sendPMMessage("PROVIED_REQUEST (Get_Team_Member)", 1);
 				
-				DBConnection db = new DBConnection();
-				Connection connect = db.getConnection();
-				
-				String getTeamCountSQL = "SELECT COUNT(*) FROM student_info";
-				Statement stmt = connect.createStatement();
-				ResultSet rsCount = stmt.executeQuery(getTeamCountSQL);
-				rsCount.next();
-				int teamCount = rsCount.getInt(1);
-				if(team > teamCount || team < 0){
+				if(!isTeamNumExist(team)){
 					qrm.setSuccess(false);
-					qrm.setMessage("Error! The team count is " + teamCount + ", team is between 1 ~ " + teamCount + ".");
-					stmt.close();
-					rsCount.close();
-					connect.close();
+					qrm.setMessage("team " + team +" doesn't exist!");
 					return qrm;
 				}
 				
+				DBConnection db = new DBConnection();
+				Connection connect = db.getConnection();
+
 				String getTeamMembSQL = "SELECT * FROM student_info WHERE team_num = ?";
 				PreparedStatement getUserTeamStat = connect.prepareStatement(getTeamMembSQL);
 				getUserTeamStat.setInt(1, team);
@@ -71,8 +84,6 @@ public class TeamQueryImpl implements TeamQueryInterface{
 				qrm.setMessage("Success!");
 				qrm.setResult(members);
 				
-				stmt.close();
-				rsCount.close();
 				rs.close();
 				getUserTeamStat.close();
 				connect.close();
@@ -119,7 +130,6 @@ public class TeamQueryImpl implements TeamQueryInterface{
 				String userTeam = null;
 				while(rs.next()){
 					userTeam = String.valueOf(rs.getInt("team_num"));
-					qrm.setResult(String.valueOf(rs.getInt("team_num")));
 				}
 				if(userTeam == null){
 					qrm.setSuccess(false);

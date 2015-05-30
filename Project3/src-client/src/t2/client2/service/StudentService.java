@@ -32,12 +32,20 @@ public class StudentService {
 		}
 	}
 	
-	public void getTeamMemberService() throws NumberFormatException, RemoteException{
+	public void getTeamMemberService() throws RemoteException{
 		System.out.println("Team: (Please input team number)");
 		@SuppressWarnings("resource")
 		String team = new Scanner(System.in).next().toString();
 		
-		QueryResultMessage qrm = teamQueryInterface.getTeamMember(Integer.valueOf(team));
+		int teamNo = 0; 
+		try{
+			teamNo = Integer.valueOf(team);
+		}catch(NumberFormatException e){
+			System.out.println(team + " isn't a team number, please input a team number!");
+			return;
+		}
+
+		QueryResultMessage qrm = teamQueryInterface.getTeamMember(teamNo);
 		
 		if(!qrm.isSuccess()){
 			System.out.println(qrm.getMessage());
