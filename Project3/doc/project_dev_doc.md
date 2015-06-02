@@ -162,6 +162,14 @@ StudentService.java | 提供查询学生信息的各种方式
 4. ```DBConnection```类主要负责连接数据库的操作，其中包含的方法如下：
 	* public DBConnection(); 构造函数，负责读入配置文件中的配置属性（数据库连接属性，四个构件的连接属性等）
 	* public Connection getConnection(); 负责从数据库中获得一个数据库连接。
+5. ```MyFailureManager``` 类主要是根据项目的需要对原来fm构件的功能进行封装，从而实现同类型的连续的警告信息只输出一次。其中包含如下方法。
+	* ```private static boolean isSameLog(String currentLog, String lastLog)``` 判断两条日志信息是否相同。
+	* ```public static void logInfo(String log)``` 输出info类型的日志信息，连续相同的日志信息不再输出。
+	* ```public static void logDebug(String log)``` 输出debug类型的日志信息，连续相同的日志信息不再输出。
+	* ```public static void logWarn(String log) ``` 输出Warn类型的日志信息，连续相同的日志信息不再输出。
+	* ```public static void logError(String log)``` 输出Error类型的日志信息，连续相同的日志信息不再输出。
+	* ```public static void logFatal(String log) ``` 输出Fatal类型的日志信息，连续相同的日志信息不再输出。
+	* ```public synchronized static boolean resetOutputFile(String filepath)``` 重新设置fm日志文件输出路径。
 
 ### client端代码实现
 1. ```StudentService```类，该类主要负责将从服务器接受来的回应数据显示给用户， 其包含的方法如下：

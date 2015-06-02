@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 import t2.server2.db.DBConnection;
+import t2.server2.fm.MyFailureManager;
 import t2.server2.queryresultmessage.QueryResultMessage;
 import t2.server2.stub.TeamQueryInterface;
 
@@ -16,14 +17,13 @@ import com.eva.me.cm.ConfigUtil;
 import com.license.caller.CallerMessage;
 import com.license.manager.LicenseManager;
 import com.license.manager.message.RequestResultMessage;
-import com.manager.failure.FailureManager;
 import com.team8.PerformanceManagement.PM;
 
 public class TeamQueryImpl implements TeamQueryInterface{
 	
 	public TeamQueryImpl() throws Exception {
 		ConfigUtil config = ConfigUtil.getInstance();
-		FailureManager.resetOutputFile(config.getProperty("FM_PATH"));
+		MyFailureManager.resetOutputFile(config.getProperty("FM_PATH"));
 		PM.setPathName(config.getProperty("PM_PATH"));
 		LicenseManager.getInstance().setLicenseCapacity(Integer.parseInt(config.getProperty("LICENSE_NUM")));
 	}
@@ -59,7 +59,7 @@ public class TeamQueryImpl implements TeamQueryInterface{
 			RequestResultMessage rrm = LicenseManager.getInstance().requestLicense(callerMessage);
 			
 			if(rrm.isSuccess()){
-				FailureManager.logInfo("Provide service (Get_Team_Member), query: "+team);
+				MyFailureManager.logInfo("Provide service (Get_Team_Member), query: "+team);
 				PM.sendPMMessage("PROVIED_REQUEST (Get_Team_Member)", 1);
 				
 				if(!isTeamNumExist(team)){
@@ -89,7 +89,7 @@ public class TeamQueryImpl implements TeamQueryInterface{
 				connect.close();
 
 			}else{
-				FailureManager.logError("Reject service (Get_Team_Member), query: "+team);
+				MyFailureManager.logError("Reject service (Get_Team_Member), query: "+team);
 				PM.sendPMMessage("REJECT_REQUEST (Get_Team_Member)", 1);
 				qrm.setSuccess(false);
 				qrm.setMessage("Reject: License out of limit!");
@@ -116,7 +116,7 @@ public class TeamQueryImpl implements TeamQueryInterface{
 			CallerMessage callerMessage = new CallerMessage("SOFTWARE-REUSE-TEAM2");
 			RequestResultMessage rrm = LicenseManager.getInstance().requestLicense(callerMessage);
 			if(rrm.isSuccess()){
-				FailureManager.logInfo("Provide service (Get_User_Team), query: " + name);
+				MyFailureManager.logInfo("Provide service (Get_User_Team), query: " + name);
 				PM.sendPMMessage("PROVIED_REQUEST (Get_User_Team)", 1);
 				
 				DBConnection db = new DBConnection();
@@ -144,7 +144,7 @@ public class TeamQueryImpl implements TeamQueryInterface{
 				getUserTeamStat.close();
 				connect.close();
 			}else{
-				FailureManager.logError("Reject service (Get_User_Team), query: "+name);
+				MyFailureManager.logError("Reject service (Get_User_Team), query: "+name);
 				PM.sendPMMessage("REJECT_REQUEST (Get_User_Team)", 1);
 				qrm.setSuccess(false);
 				qrm.setMessage("Reject: License out of limit!");
