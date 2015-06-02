@@ -58,7 +58,7 @@ FM2.1可用
 
 * 利用Log4j进行日志输出（而非告警输出），文件名为fm.log
 * 接口：```resetOutputFile```的意义有所变动，详细信息见下条
-* 警告输出到 ```FILE_PATH/yyyy-MM-dd HH:mm:ss-x.log``` 文件中
+* 警告输出到 ```FILE_PATH/yyyy-MM-dd_HH-mm-ss-x.log``` 文件中
 	* ```FILE_PATH``` 为输出路径，由 ```resetOutputFile(String filename)``` 接口进行设置
 	* 文件名为```时间戳-ID.log```
 	* 每条警告信息输出到一个新文件中

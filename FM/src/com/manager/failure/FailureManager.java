@@ -12,7 +12,7 @@ public class FailureManager {
 	
 	private static Logger logger = Logger.getLogger(FailureManager.class.getName());
 	private static int counter = 0;
-	private static String fakenow = "00-00-00_00:00:00";
+	private static String fakenow = "0000-00-00_00-00-00";
 	private static String filepath = ".";
 	
 	
@@ -57,7 +57,7 @@ public class FailureManager {
     }
     
     private synchronized static String generateUniqueName(){
-    	String filename = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+    	String filename = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
 		if(!FailureManager.fakenow.equals(filename)){
 			FailureManager.counter = 0;
 			FailureManager.fakenow = filename;
