@@ -41,10 +41,7 @@ public class FailureManager {
     
     private static void log(String log, String level){
 //    	String filename = generateUniqueName();
-    	System.out.println("log		"+log);
-    	System.out.println("last	" + lastlog);
     	if(!FailureManager.repetition && log.equals(FailureManager.lastlog)){
-    		System.out.println("no output");
     		logger.warn("Repetation message" + log);
     	}else{
         	writeToFile(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()) + " " + level+" "+log);
@@ -56,6 +53,11 @@ public class FailureManager {
     public synchronized static boolean resetOutputFile(String filepath){
     	try{
     		File file = new File(filepath);
+    		if(file.isDirectory()){
+    			logger.error("Failed: resetOutputFile recieved a directory");
+    			return false;
+    		}
+    		
     		File parent = file.getParentFile();
     		
     		if(parent != null && !parent.exists()){
@@ -63,11 +65,11 @@ public class FailureManager {
     		}
     		
         	FailureManager.filepath = filepath;
-        	logger.info("Done: reset log directory to "+filepath);
+        	logger.info("Done: reset log file to "+filepath);
         	return true;
     	}catch(Exception e){
     		e.printStackTrace();
-    		logger.error("Failed reset log directory to "+filepath);
+    		logger.error("Failed reset log file to "+filepath);
     		return false;
     	}
     }
