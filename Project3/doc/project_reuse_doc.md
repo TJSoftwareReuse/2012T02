@@ -138,6 +138,7 @@ UserQueryImpl.java | 服务接口实现
 DBConnection.java | 数据库连接类
 QueryResultMessage.java | 请求服务的返回消息
 Main.java | 注册RMI接口，指定服务端口
+MyFailureManager.java | 对原始的fm构件进行封装，实现相同类型的连续报警信息只输出一次。
 
 ### Client端结构设计
 文件名称 | 执行功能
